@@ -20,8 +20,10 @@ function ContentController(){
 }
 
 function Renderer(){
-	this.render = function( entryEl, data ){
+	this.render = function( entryEl, entryId, data ){
 		var tmpl = Handlebars.compile( entryEl.html() )
+
+		data.id = entryId
 
 		if( data.body ){
 			data.body = markdown.toHTML(data.body)
@@ -50,7 +52,7 @@ function AppController(){
 			closestEl = null
 
 		for( var i=0; i<els.length;i++){
-			var d = Math.abs(els[i].offsetTop - Math.abs(scroller.y))
+			var d = Math.abs(els[i].offsetTop - Math.abs(scroller.y) - window.innerHeight*.1)
 			if( d < minD ){
 				closestEl = els[i]
 				minD = d
@@ -59,12 +61,16 @@ function AppController(){
 
 		scroller.scrollToElement(closestEl, 200)
 
-		//console.log( "Stopping on", $(closestEl), $(closestEl).data('entry-id'))
 		// Load current entry and preload the ones around it
-		self.loadEntry( $(closestEl) )
-		self.loadEntry( $(closestEl).next() )
-		self.loadEntry( $(closestEl).next().next() )
-		self.loadEntry( $(closestEl).prev() )
+		self.loadEntryAndSome( closestEl )
+	}
+
+	this.scrollToEntryById = function(entryId){
+		var els = $('.entry').filter(function(){return $(this).data('entry-id') == entryId})
+		if( els.length != 0 ){
+			scroller.scrollToElement( els.get(0), 800 )
+			self.loadEntryAndSome( els.get(0) )
+		}
 	}
 
 	this.refresh = function(){
@@ -90,12 +96,19 @@ function AppController(){
 		if( entryEl.data('loaded') !== true ){
 
 			content.getEntry( entryId, function( data ){
-				renderer.render(entryEl, data)
+				renderer.render(entryEl, entryId, data)
 				entryEl.find('.section').css('visibility', 'visible')
 			})
 
 			entryEl.data('loaded', true)
 		}
+	}
+
+	this.loadEntryAndSome = function( entryEl ){
+		self.loadEntry( $(entryEl) )
+		self.loadEntry( $(entryEl).next() )
+		self.loadEntry( $(entryEl).next().next() )
+		self.loadEntry( $(entryEl).prev() )
 	}
 
 	this.appendAllEntryStubs = function(callback){
@@ -117,12 +130,12 @@ function AppController(){
 			self.refresh()
 			scrollToNearestSection()
 		}, 300)
-
 	})
 	
 	self.appendAllEntryStubs(function(){
-		self.loadEntry( $('.entry:first') )
-		self.loadEntry( $('.entry:nth-child(2)') )
+		self.loadEntryAndSome( $('.entry:first') )
+		var anchorEntry = location.hash.substr(2) || parseInt(location.search.substr(2))
+		if( anchorEntry ) self.scrollToEntryById( anchorEntry )
 	})
 }
 

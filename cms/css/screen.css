@@ -356,6 +356,15 @@ a:hover{
   border-bottom: 1px solid rgba(245,79,41, .3); 
 }
 
+.anchor a{
+  color: #BBB;
+  border: none;
+}
+
+.anchor a:hover{
+  color: #F54F29;
+}
+
 
 /* ==========================================================================
    Mobile
