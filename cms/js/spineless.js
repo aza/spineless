@@ -1,5 +1,5 @@
 function ContentController(){
-	var blogRef = new Firebase("shorts.firebaseio.com/entries")
+	var blogRef = new Firebase("snapfiction.firebaseio.com/entries")
 
 	this.getEntry = function(startingAt, callback){
 		blogRef

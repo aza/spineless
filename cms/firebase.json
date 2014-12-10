@@ -1,5 +1,5 @@
 {
-  "firebase": "shorts",
+  "firebase": "snapfiction",
   "public": ".",
   "ignore": [
     "firebase.json",

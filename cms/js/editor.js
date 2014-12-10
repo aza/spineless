@@ -1,5 +1,5 @@
-var blogRef = new Firebase("shorts.firebaseio.com/entries"),
-	backupRef = new Firebase("shorts.firebaseio.com/backup-entries")
+var blogRef = new Firebase("snapfiction.firebaseio.com/entries"),
+	backupRef = new Firebase("snapfiction.firebaseio.com/backup-entries")
 	allEntries = null
 
 blogRef.once('value', function(entriesSnapshot){
