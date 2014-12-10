@@ -1,4 +1,5 @@
 Handlebars.registerHelper('simplify', function(str) {
+	if( str == undefined ) return 'entry'
   return str.toLowerCase().replace(/ /, '').substr(0,10);
 });
 
@@ -38,7 +39,7 @@ function Renderer(){
 		if( data.img ){
 			entryEl.find('.cover').css('background-image', 'url('+data.img+')')
 		}
-		console.log( data )
+		//console.log( data )
 	}
 }
 
