@@ -45,8 +45,9 @@ function Renderer(){
 
 function AppController(){
 	var self = this,
-			content = new ContentController()
-			renderer = new Renderer()
+			content = new ContentController(),
+			renderer = new Renderer(),
+			lastScrolledToEntry = null
 	
 	var scroller = new IScroll('.container', { mouseWheel: true, snap:false, deceleration:.005, scrollbars: 'custom', fadeScrollbars: true })
 	this.scroller = scroller
@@ -68,6 +69,7 @@ function AppController(){
 
 		// Load current entry and preload the ones around it
 		self.loadEntryAndSome( closestEl )
+		lastScrolledToEntry = closestEl
 	}
 
 	this.scrollToEntryById = function(entryId){
@@ -75,6 +77,7 @@ function AppController(){
 		if( els.length != 0 ){
 			scroller.scrollToElement( els.get(0), 800 )
 			self.loadEntryAndSome( els.get(0) )
+			lastScrolledToEntry = els.get(0)
 		}
 	}
 
@@ -132,8 +135,7 @@ function AppController(){
 	$(window).resize(function(){
 		clearTimeout( resizeTimeout )
 		resizeTimeout = setTimeout(function(){
-			self.refresh()
-			scrollToNearestSection()
+			if( lastScrolledToEntry ) self.scrollToEntryById( lastScrolledToEntry.data('entry-id') )
 		}, 300)
 	})
 	
