@@ -21,7 +21,7 @@
 					<h1 class="title">{{title}}</h1>
 					{{#if subtitle}}<h2 class="subtitle">{{subtitle}}</h2>{{/if}}
 					<p class="body">{{{body}}}</p>
-					{{#if link}}<div class="anchor"><a href="?e{{id}}">{{link}}</a></div>{{/if}}
+					{{#if link}}<div class="anchor"><a href="?{{id}}-{{simplify title}}">{{link}}</a></div>{{/if}}
 				</div>
 			</div>
 		</div>

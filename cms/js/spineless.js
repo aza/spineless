@@ -1,3 +1,7 @@
+Handlebars.registerHelper('simplify', function(str) {
+  return str.toLowerCase().replace(/ /, '').substr(0,10);
+});
+
 function ContentController(){
 	var blogRef = new Firebase("snapfiction.firebaseio.com/entries")
 
@@ -134,7 +138,7 @@ function AppController(){
 	
 	self.appendAllEntryStubs(function(){
 		self.loadEntryAndSome( $('.entry:first') )
-		var anchorEntry = location.hash.substr(2) || parseInt(location.search.substr(2))
+		var anchorEntry = location.hash.substr(1) || parseInt(location.search.substr(1)) || parseInt(location.pathname.substr(1))
 		if( anchorEntry ) self.scrollToEntryById( anchorEntry )
 	})
 }
