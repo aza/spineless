@@ -75,6 +75,7 @@ function loadEntries(startingAt, limit, insertBefore, callback){
 			isLoading = false
 			if( callback ) callback()
 	})
+
 }
 
 

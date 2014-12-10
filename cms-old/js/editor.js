@@ -8,10 +8,11 @@ blogRef.once('value', function(entriesSnapshot){
 	allEntries = entriesSnapshot.val()
 	allEntries.forEach(function(entry, num){
 		if( entry ){
-			output += '::' + (entry.link ? entry.link : '') + '\n'
+			output += '::' + num + '\n'
 			
 			Object.keys(entry).forEach(function(key){
-				if( key != 'link') output += key+'::'+entry[key]+'\n'
+				output += key+'::'+entry[key]+'\n'
+				//console.log( key, ":", entry[key] )
 			})
 			output += "\n\n"
 		}
@@ -28,33 +29,26 @@ $("#save").click(function(){
 	var input = $("textarea").val()
 	var lines = input.split("\n")
 
-	console.log( lines )
-
-	var json = [],
+	var json = {},
+		curIndex = 0,
 		curKey = null
 
 	lines.forEach(function(line){
-		var indexMatch = line.match(/^::(.*)/),
+		var indexMatch = line.match(/^::(\d+)/),
 		    keyMatch = line.match(/^(\w+)::(.*)/)
 		
 		if( indexMatch ){
-			console.log( "INDEX MATCH", indexMatch)
-			json.push({})
-
-			if( indexMatch[1] ){
-				json[ json.length-1 ].link = indexMatch[1]
-			}
+			curIndex = indexMatch[1]
+			json[curIndex] = {}
 		}
 		else if( keyMatch ){
 			curKey = keyMatch[1]
-			json[ json.length-1 ][curKey] = keyMatch[2]
+			json[curIndex][curKey] = keyMatch[2]
 		}
 		else if(curKey == 'body'){
-			json[ json.length-1 ].body += '\n'+line
+			json[curIndex].body += '\n'+line
 		}
 	})
-
-	console.log( json )
 
 	blogRef.set( json, function(err){
 		$('#save').css({opacity: .5})

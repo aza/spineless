@@ -5,51 +5,36 @@
 	<link href='https://fonts.googleapis.com/css?family=Sorts+Mill+Goudy:400,400italic' rel='stylesheet' type='text/css'>
 	<link href='css/fonts/copernicus.css' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="/css/screen.css">
+	
 	<script src="/js/jquery-2.1.1.min.js"></script>
-	<script src="/js/jquery.panelSnap.js"></script>
-	<script src="/js/jquery.textfill.js"></script>	
-	<script src="https://cdn.firebase.com/js/client/1.0.21/firebase.js"></script>
-	<script src="http://localhost:8080/target/target-script-min.js#anonymous"></script>
+	<script src="/js/handlebars-v2.0.0.js"></script>
+	<script src="/js/markdown.min.js"></script>
+	<script src="/js/iscroll.js"></script>
+	<script src="https://cdn.firebase.com/js/client/2.0.6/firebase.js"></script>
 </head>
 <body>
-	<div class="template">
-		<section class="header">
-			<div class="content">
-				<h1 class="author"></h1>
+
+	<script type="text/x-handlebars-template" id="entry-template">
+		<div class="entry" data-entry-id="">
+			<div class="section {{#if img}}cover{{/if}} {{#unless img}}main{{/unless}}">
+				<div class="content">
+					<h1 class="title">{{title}}</h1>
+					{{#if subtitle}}<h2 class="subtitle">{{subtitle}}</h2>{{/if}}
+					<p class="body">{{{body}}}</p>
+					<div class="anchor">{{link}}</div>
+				</div>
 			</div>
-		</section>
+		</div>
+	</script>
 
-		<section class="main">
-			<div class="content">
-				<h1 class="title"></h1>
-				<p></p>
-				<div class="anchor"><a href="#"><h1 class="id"></h1></a></div>
-			</div>
-		</section>
-	</div>
-
-	<script src="/js/app.js"></script>
-
-	<div class="control">
-		<div class="scroll-right icon-arrow-left"></div>
-	</div>
-
-	<!-- CONTENT -->
-
-	<section class="header" id="splash">
-		<div class="content">
-			<h1>Short Fiction</h1>
-			<h2>Currated by Wendellen Li</h2>
+	<div class="container">
+		<div id="scroller">
+			
+			
 		</div>
 	</div>
 
-	<div class="nav">
-		<div class="menu"></div>
-	</div>	
-	</section>
-
-
-
+	<script src="/js/spineless.js"></script>
 
 </body>
 </html>	
